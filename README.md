@@ -35,6 +35,9 @@ python src\find_idle_lambda.py --config config\config.yaml
      (misal channel 5 & 6), dengan center frequency/wavelength slot 100G-nya
      (titik tengah + rentang ±50GHz).
 
+## Output
+![alt text](image-2.png)
+![alt text](image-1.png)
 ## Struktur folder
 
 ```
@@ -84,3 +87,5 @@ error lain, cek pesan `[ERROR]` di layar — biasanya karena nama kolom
 - **Bungkus jadi .exe**: aman dibungkus PyInstaller karena tidak ada
   dependency Excel/COM (`pyinstaller --onefile --noupx src\find_idle_lambda.py`).
 - Waduh lupa nambahin Channel Flexgrid nya cuy.
+
+
