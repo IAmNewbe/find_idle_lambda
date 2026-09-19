@@ -1,0 +1,27 @@
+# =========================================================
+# KONFIGURASI IDLE LAMBDA FINDER
+# =========================================================
+
+# Folder tempat file mentah "Manage WDM Trail" diletakkan
+input_folder: "input/raw"
+
+# Folder hasil mapping disimpan
+output_folder: "output"
+
+# Pola nama file yang diproses
+input_pattern: "*.xlsx"
+
+# Nama kolom yang berisi channel WDM (format: "C\<no>\<wavelength>\<freq>")
+channel_column: "Source Channel"
+
+# Kolom tambahan yang ikut disalin untuk keterangan "dipakai oleh"
+info_columns:
+  - "Name"
+  - "Source"
+  - "Sink"
+
+# --- Channel plan (grid ITU-T C-band 50GHz, 80 channel) ---
+total_channels: 80
+freq_channel1_thz: 196.05     # frekuensi channel nomor 1 (THz)
+spacing_ghz: 50                # jarak antar channel (GHz)
+# channel bertambah -> frekuensi berkurang (sesuai grid standar C-band)
