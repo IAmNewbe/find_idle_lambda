@@ -2,18 +2,30 @@
 
 Tool untuk mencari channel/lambda DWDM yang masih kosong (idle) dari export
 "Manage WDM Trail" (.xlsx). Bandingkan kolom **Source Channel** di semua file
-input dengan channel plan standar **ITU-T C-band 50GHz (80 channel)**, lalu
+input dengan channel plan standar **Pak Rupas**, lalu
 hasilkan satu file Excel mapping USED vs IDLE.
 
-Otomatis menangani file export yang rusak (error `sharedStrings.xml` hilang)
-tanpa perlu software tambahan.
+Otomatis menangani file export yang rusak (error `sharedStrings.xml` hilang).
 
 ## Cara pakai
 
-1. **Sekali saja**: double-click `setup.bat`.
+1. **Sekali saja**: double-click `setup.bat` *tapi pasti kena block*.
 2. Taruh semua file export `Manage_WDM_Trail_*.xlsx` ke folder `input/raw/`.
 3. Double-click `run.bat`.
-4. Hasil ada di `output/Lambda_Mapping_<timestamp>.xlsx`, berisi:
+4. **Cara kedua** *kalau step diatas kena block* <br>
+run script ini lewat cmd di directory folder ini
+  ```
+  cd path\ke\folder\find-idle-lambda
+  python -m venv .venv
+  .venv\Scripts\activate
+  pip install -r requirements.txt
+  ```
+5. Kalau sudah lanjut run script ini di cmd:
+```
+.venv\Scripts\activate
+python src\find_idle_lambda.py --config config\config.yaml
+```
+6. Kemudian tunggu sambil kedip mata, Hasil ada di `output/Lambda_Mapping_<timestamp>.xlsx`, berisi:
    - **Sheet "Lambda Mapping"**: 80 baris channel, dengan Wavelength, Frequency,
      Status (USED/IDLE, diwarnai hijau/merah), dan info trail yang memakainya
      (Name, Source, Sink, file asal).
@@ -23,7 +35,7 @@ tanpa perlu software tambahan.
      (misal channel 5 & 6), dengan center frequency/wavelength slot 100G-nya
      (titik tengah + rentang ±50GHz).
 
-## Struktur project
+## Struktur folder
 
 ```
 idle-lambda-finder/
@@ -43,8 +55,8 @@ idle-lambda-finder/
 - `channel_column`: nama kolom yang dibaca (default `"Source Channel"`)
 - `info_columns`: kolom tambahan yang ikut ditampilkan di hasil (Name, Source, Sink)
 - `total_channels`, `freq_channel1_thz`, `spacing_ghz`: parameter channel plan.
-  Default sudah diset untuk grid **C-band 50GHz, 80 channel** (channel 1 =
-  196.05 THz, channel 80 = 192.10 THz) — sesuai dengan data yang kamu kasih.
+  Default diset untuk grid **C-band 50GHz, 80 channel** (channel 1 =
+  196.05 THz, channel 80 = 192.10 THz).
   Kalau nanti perlu grid lain (misal L-band atau 96 channel), tinggal ubah
   tiga angka ini.
 
@@ -62,7 +74,7 @@ Script sudah otomatis menambal file yang kena bug "sharedStrings.xml hilang"
 error lain, cek pesan `[ERROR]` di layar — biasanya karena nama kolom
 "Source Channel" berbeda, bisa disesuaikan di `config.yaml`.
 
-## Mengembangkan lebih lanjut
+## Pengembangkan lebih lanjut
 
 - **Grid berbeda per link/span**: kalau nanti perlu idle lambda per rute
   (bukan gabungan semua file), tinggal grouping berdasarkan `Name`/link
@@ -71,3 +83,4 @@ error lain, cek pesan `[ERROR]` di layar — biasanya karena nama kolom
   atau render ke PDF dari data yang sama.
 - **Bungkus jadi .exe**: aman dibungkus PyInstaller karena tidak ada
   dependency Excel/COM (`pyinstaller --onefile --noupx src\find_idle_lambda.py`).
+- Waduh lupa nambahin Channel Flexgrid nya cuy.
